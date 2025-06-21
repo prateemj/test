@@ -5,10 +5,10 @@ from routes.iNGS.subtitles import *
 
 app = Flask(__name__)
 
-allowed_origins = ["https://localhost:4200"]
-CORS(app, resources={r"app/*": {"origins": allowed_origins}})
+allowed_origins = ["http://localhost:4200"]
+CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
-@app.route('/api/getNotes', methods = ['GET'])
+@app.route('/api/extractSubtitlesFromURL', methods = ['POST'])
 def fetch_notes():
     return fetchNotesFromURL()
 
