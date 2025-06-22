@@ -5,7 +5,7 @@ from routes.iNGS.subtitles import *
 
 app = Flask(__name__)
 
-allowed_origins = ["http://localhost:4200"]
+allowed_origins = ["http://localhost:4200", "https://ings-frontend.onrender.com"]
 CORS(app, resources={r"/api/*": {"origins": allowed_origins}})
 
 @app.route('/api/extractSubtitlesFromURL', methods = ['POST'])
