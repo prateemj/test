@@ -19,19 +19,21 @@ client = OpenAI(
 )
 
 def open_url_in_chrome(url, mode='headed'):
-    print("Installing chrome driver")
-    chromedriver_autoinstaller.install()  # Automatically installs correct chromedriver
-    print("Installed chrome driver")
+    chromedriver_autoinstaller.install()
+
+    chrome_path = "/usr/bin/google-chrome"  # Path where Chrome is installed on Ubuntu
 
     options = Options()
+    options.binary_location = chrome_path
+
     if mode == 'headless':
-        options.add_argument('--headless=new')  # Use new headless mode (Chrome 109+)
+        options.add_argument('--headless=new')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
         options.add_argument('--disable-gpu')
         options.add_argument('--window-size=1280x800')
 
-    service = Service()  # No need to pass driver path manually
+    service = Service()
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     return driver
