@@ -18,10 +18,12 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-def open_url_in_chrome(url, mode='headed'):
+def open_url_in_chrome(url, mode='headless'):
+    os.environ["PATH"] += os.pathsep + "/usr/bin"
+
     chromedriver_autoinstaller.install()
 
-    chrome_path = "/usr/bin/google-chrome"  # Path where Chrome is installed on Ubuntu
+    chrome_path = "/usr/bin/google-chrome"
 
     options = Options()
     options.binary_location = chrome_path
