@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: ings-backend          # same service name
+    env: docker
+    branch: main
+    dockerfilePath: Dockerfile
+    plan: free                  # or your existing plan
+    autoDeploy: true
