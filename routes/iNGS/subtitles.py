@@ -4,29 +4,30 @@ from selenium import webdriver
 from openai import OpenAI
 from dotenv import load_dotenv
 from flask import request, jsonify
-import os
+import os, tempfile
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
 load_dotenv()
 
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-def open_url_in_chrome(url, mode='headless'):
-    os.environ["PATH"] += os.pathsep + "/usr/bin"
 
+def open_url_in_chrome(url, mode='headed'):
+    print("Installing chrome driver")
     chromedriver_autoinstaller.install()
 
-    chrome_path = "/usr/bin/google-chrome"
-
     options = Options()
-    options.binary_location = chrome_path
+
+    # Create a temporary directory for Chrome user profile
+    user_data_dir = tempfile.mkdtemp()
+    options.add_argument(f"--user-data-dir={user_data_dir}")
 
     if mode == 'headless':
         options.add_argument('--headless=new')
@@ -39,7 +40,6 @@ def open_url_in_chrome(url, mode='headless'):
     driver = webdriver.Chrome(service=service, options=options)
     driver.get(url)
     return driver
-
     
 def get_transcript(driver, mode):
 
@@ -164,6 +164,7 @@ def fetchNotesFromURL():
     
 def fetchNotesFromFile():
     subtitle = request.get_json()["subtitle"]
+    
     
     if len(subtitle):
     
